@@ -96,18 +96,18 @@ export async function POST(request: NextRequest) {
             {status: 201}
         )
     } catch (error) {
-        const { status, message } = handlePrismaError(error, requestId);
+        const { status, message } = handlePrismaError(error);
         log.error(
             { 
                 requestId,
-                err: error instanceof Error ? error.message : String(error),
+                err: error instanceof Error ? { message: error.message, stack: error.stack, name: error.name } : String(error),
              },
-            "Failed order creating..."
+            message
         )
         return NextResponse.json(
-            {status: "fail", requestId, message: "Failed order creating..."},
-            {status: 500}
-        )
+        { status: "fail", requestId, message },
+        { status }
+    )
     }
 }
 ```
