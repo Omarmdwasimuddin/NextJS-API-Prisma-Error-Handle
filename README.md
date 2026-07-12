@@ -5,7 +5,7 @@
 import { Prisma } from "@/app/generated/prisma";
 
 
-export function handlePrismaError(error: unknown, requestId: string) {
+export function handlePrismaError(error: unknown) {
   if (error instanceof Prisma.PrismaClientKnownRequestError) {
     switch (error.code) {
       case "P2002": return { status: 409, message: "Duplicate entry" };
